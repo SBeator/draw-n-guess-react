@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import socket from '../../utils/socket';
- 
-class Content extends Component {
 
+class Content extends Component {
   componentDidMount() {
-    socket.on('connect', function(...args){
+    socket.on('connect', (...args) => {
       console.log(`connected: ${args}`);
     });
-    socket.on('chat', function(...args){
+    socket.on('chat', (...args) => {
       console.log(`chat: ${args}`);
     });
 
-    socket.emit('chat', "username", "message")
+    socket.emit('chat', 'username', 'message');
   }
 
   render() {
-    return (
-      <div>content</div>
-    )
+    return <div>content</div>;
   }
 }
 

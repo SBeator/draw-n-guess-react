@@ -11,8 +11,15 @@
     "socket.io-client": "^2.0.4"
   },
   "devDependencies": {
-    "concurrently": "^3.5.1",
-    "nodemon": "^1.13.3"
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.1.1",
+    "eslint-plugin-flowtype": "^2.34.1",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "nodemon": "^1.13.3",
+    "npm-run-all": "^4.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -20,6 +27,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "server": "nodemon ./server --watch ./server",
-    "dev": "concurrently --kill-others \"npm start\" \"npm run server\""
+    "dev": "npm-run-all -p start server"
   }
 }
