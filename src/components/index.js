@@ -1,9 +1,5 @@
-import Content from './content/Content';
+import Content from './Content/Content';
 
 const placeHolder = () => {};
 
-export {
-  Content,
-  placeHolder,
-};
-
+export { Content, placeHolder };
