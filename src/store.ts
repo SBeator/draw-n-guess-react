@@ -3,11 +3,9 @@ import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
 import sages from './sagas/';
 
-export default function configureStore(initialState = {}) {
-  /* eslint-disable no-underscore-dangle */
-  const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  /* eslint-enable */
+export default function configureStore(initialState: any = {}) {
+  const composeEnhancers = ((window as any)
+    .__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose) as <R>(a: R) => R;
 
   const sagaMiddleware = createSagaMiddleware();
 

@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import App from './App';
 import { Provider } from 'react-redux';
 import './index.css';
-import App from './App';
 import configureStore from './store';
 
 // Let the reducers handle initial state
@@ -17,9 +17,9 @@ ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root') as HTMLElement
 );
 
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
