@@ -16,6 +16,7 @@
         "exports": "always-multiline",
         "functions": "ignore"
       }
-    ]
+    ],
+    "arrow-parens": [0, "as-needed"]
   }
 }

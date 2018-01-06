@@ -1,14 +1,23 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
+import sages from './sagas/';
 
 export default function configureStore(initialState = {}) {
   /* eslint-disable no-underscore-dangle */
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  /* eslint-enable */
+
+  const sagaMiddleware = createSagaMiddleware();
+
   const store = createStore(
     reducers,
     initialState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    composeEnhancers(applyMiddleware(sagaMiddleware))
   );
-  /* eslint-enable */
+
+  sagaMiddleware.run(sages);
 
   // if (module.hot) {
   //   // Enable Webpack hot module replacement for reducers

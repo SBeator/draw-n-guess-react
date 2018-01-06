@@ -1,5 +1,4 @@
 import User from './User/User';
+import Socket from './Socket/Socket';
 
-const placeHolder = () => {};
-
-export { User, placeHolder };
+export { User, Socket };

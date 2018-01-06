@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import { Content } from './components';
-import { User } from './containers';
+import { Socket } from './containers';
 
 export default () => (
   <div className="App">
@@ -15,6 +15,6 @@ export default () => (
       To get started, edit <code>src/App.js</code> and save to reload.
     </p>
     <Content />
-    <User />
+    <Socket>socket</Socket>
   </div>
 );

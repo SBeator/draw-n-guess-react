@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import socket from '../../utils/socket';
 
 import * as userActions from '../../actions/user';
 
 class User extends Component {
   componentDidMount() {
-    this.props.userActions.login('Xingxin');
+    socket.on('connect', () => {
+      this.props.socketAction.connectted();
+    });
+
+    this.props.socketAction.connectting();
   }
 
   render() {
