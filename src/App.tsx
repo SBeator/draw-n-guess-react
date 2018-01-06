@@ -3,8 +3,8 @@ import './App.css';
 
 const logo = require('./logo.svg');
 
-// import { Content } from './components';
-// import { Socket } from './containers';
+import { Content } from './components';
+import { Socket } from './containers';
 
 class App extends React.Component {
   render() {
@@ -17,6 +17,8 @@ class App extends React.Component {
         <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
+        <Content />
+        <Socket>socket</Socket>
       </div>
     );
   }

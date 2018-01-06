@@ -1,13 +1,14 @@
 import { eventChannel } from 'redux-saga';
 import { put, takeEvery, take, call } from 'redux-saga/effects';
-import io from 'socket.io-client';
+import * as io from 'socket.io-client';
 
 import { CONNECTING } from '../types/socket';
 import { socket as socketAction } from '../actions';
-// import socket from '../utils/socket';
-import { serverPort } from '../config';
+import { serverPort } from '../../config';
 
-function createSocketChannel(socket) {
+/* tslint:disable:no-console */
+
+function createSocketChannel(socket: SocketIOClient.Socket) {
   // `eventChannel` takes a subscriber function
   // the subscriber function takes an `emit` argument to put messages onto the channel
   return eventChannel(emit => {
@@ -16,9 +17,9 @@ function createSocketChannel(socket) {
       emit(socketAction.connected());
     };
 
-    const connectErrorHandler = () => {
+    const connectErrorHandler = (error: string) => {
       console.log('connect_error');
-      emit(socketAction.connectedError());
+      emit(socketAction.connectedError(error));
     };
 
     // setup the subscription
