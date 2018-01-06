@@ -20,6 +20,11 @@ ReactDOM.render(
   document.getElementById('root') as HTMLElement
 );
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
+interface HotModule extends NodeModule {
+  hot?: any;
+}
+
+const hotModule = module as HotModule;
+if (hotModule.hot) {
+  hotModule.hot.accept();
+}
