@@ -8,7 +8,7 @@ import { user as userActions } from '../../redux/actions';
 import { IRootState, IPayloadAction, IUserState } from '../../declarations';
 
 class User extends Component<Props> {
-  nameInput: HTMLInputElement | null;
+  nameInput: HTMLInputElement;
   state = {
     name: '',
   };
@@ -46,7 +46,7 @@ class User extends Component<Props> {
           <form onSubmit={this.handleLoign}>
             <input
               ref={input => {
-                this.nameInput = input;
+                this.nameInput = input as HTMLInputElement;
               }}
               onChange={this.handleNameInputChange}
             />

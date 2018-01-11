@@ -1,25 +1,31 @@
 import * as React from 'react';
 import './App.css';
 
-const logo = require('./logo.svg');
-
-import { Content } from './components';
 import { Socket, User } from './containers';
+import Canvas from './containers/Canvas/Canvas';
 
 class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <Content />
         <Socket>socket</Socket>
         <User />
+        <Canvas
+          dataLines={[
+            {
+              start: { x: 0.3, y: 0.3 },
+              end: { x: 0.7, y: 0.7 },
+              color: '#000',
+              lineWidth: 2,
+            },
+            {
+              start: { x: 0.7, y: 0.7 },
+              end: { x: 0.6, y: 0.2 },
+              color: 'green',
+              lineWidth: 2,
+            },
+          ]}
+        />
       </div>
     );
   }
