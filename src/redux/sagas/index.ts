@@ -1,3 +1,8 @@
-import socket from './socket';
+import { all } from 'redux-saga/effects';
 
-export default socket;
+import socket from './socket';
+import user from './user';
+
+export default function* rootSaga() {
+  yield all([socket(), user()]);
+}

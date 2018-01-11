@@ -1,6 +1,6 @@
 const prefix = 'USER_';
 
+const LOGGING = `${prefix}LOGGING`;
 const LOGIN = `${prefix}LOGIN`;
-const LOGOUT = `${prefix}LOGOUT`;
 
-export { LOGIN, LOGOUT };
+export { LOGGING, LOGIN };

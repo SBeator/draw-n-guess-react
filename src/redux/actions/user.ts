@@ -1,11 +1,17 @@
-import { LOGIN, LOGOUT } from '../types/user';
+import { LOGGING, LOGIN } from '../types/user';
 
-const login = () => ({
+const logging = (name: string) => ({
+  type: LOGGING,
+  payload: {
+    name,
+  },
+});
+
+const login = (name: string) => ({
   type: LOGIN,
+  payload: {
+    name,
+  },
 });
 
-const logout = () => ({
-  type: LOGOUT,
-});
-
-export { login, logout };
+export { logging, login };

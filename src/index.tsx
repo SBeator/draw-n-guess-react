@@ -6,11 +6,7 @@ import './index.css';
 import configureStore from './store';
 
 // Let the reducers handle initial state
-const initialState = {
-  user: {
-    name: 'default',
-  },
-};
+const initialState = {};
 const store = configureStore(initialState);
 
 ReactDOM.render(

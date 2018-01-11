@@ -2,45 +2,81 @@ import * as React from 'react';
 import { Component } from 'react';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { LOGGING } from '../../redux/types/user';
 
 import { user as userActions } from '../../redux/actions';
-import { RootState } from '../../declarations';
+import { IRootState, IPayloadAction, IUserState } from '../../declarations';
 
 class User extends Component<Props> {
-  componentDidMount() {
-    // socket.on('connect', () => {
-    //   this.props.socketAction.connectted();
-    // });
-    // this.props.socketAction.connectting();
+  nameInput: HTMLInputElement | null;
+  state = {
+    name: '',
+  };
+
+  constructor(props: Props) {
+    super(props);
+
+    this.handleLoign = this.handleLoign.bind(this);
+    this.handleNameInputChange = this.handleNameInputChange.bind(this);
+  }
+
+  handleNameInputChange() {
+    this.setState({
+      name: this.nameInput && this.nameInput.value,
+    });
+  }
+
+  handleLoign() {
+    if (this.state.name) {
+      this.props.logging(this.state.name);
+    }
+  }
+
+  getElement() {
+    const user = this.props.user;
+    let element;
+    if (user.name) {
+      element = <p>{this.props.user.name}</p>;
+    } else if (user.status === LOGGING) {
+      element = <p>Logging...</p>;
+    } else {
+      element = (
+        <div>
+          <label>Please input your name:</label>
+          <form onSubmit={this.handleLoign}>
+            <input
+              ref={input => {
+                this.nameInput = input;
+              }}
+              onChange={this.handleNameInputChange}
+            />
+            <button disabled={this.state.name ? false : true}>Login</button>
+          </form>
+        </div>
+      );
+    }
+
+    return element;
   }
 
   render() {
-    return (
-      <div>
-        <p>User:</p>
-        <p>{this.props.user.name}</p>
-      </div>
-    );
+    return <div>{this.getElement()}</div>;
   }
 }
 
 export interface Props {
-  user: {
-    name: string;
-  };
-  login: () => {
-    type: string;
-  };
+  user: IUserState;
+  logging: (name: string) => IPayloadAction;
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: IRootState) => ({
   user: state.user,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<RootState>) =>
+const mapDispatchToProps = (dispatch: Dispatch<IRootState>) =>
   bindActionCreators(
     {
-      login: userActions.login,
+      logging: userActions.logging,
     },
     dispatch
   );

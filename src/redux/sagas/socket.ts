@@ -1,24 +1,19 @@
 import { eventChannel } from 'redux-saga';
 import { put, takeEvery, take, call } from 'redux-saga/effects';
-import * as io from 'socket.io-client';
 
 import { CONNECTING } from '../types/socket';
 import { socket as socketAction } from '../actions';
-import { serverPort } from '../../config';
+import socket from '../../utils/socket';
 
-/* tslint:disable:no-console */
-
-function createSocketChannel(socket: SocketIOClient.Socket) {
+function createSocketChannel() {
   // `eventChannel` takes a subscriber function
   // the subscriber function takes an `emit` argument to put messages onto the channel
   return eventChannel(emit => {
     const connectionHandler = () => {
-      console.log('connection');
       emit(socketAction.connected());
     };
 
     const connectErrorHandler = (error: string) => {
-      console.log('connect_error');
       emit(socketAction.connectedError(error));
     };
 
@@ -27,8 +22,8 @@ function createSocketChannel(socket: SocketIOClient.Socket) {
     socket.on('connect_error', connectErrorHandler);
 
     const unsubscribe = () => {
-      socket.on('connection', connectionHandler);
-      socket.on('connect_error', connectErrorHandler);
+      socket.off('connection', connectionHandler);
+      socket.off('connect_error', connectErrorHandler);
     };
 
     return unsubscribe;
@@ -36,8 +31,7 @@ function createSocketChannel(socket: SocketIOClient.Socket) {
 }
 
 function* handleSocketConnect() {
-  const socket = io(`http://localhost:${serverPort}`);
-  console.log(socket);
+  socket.open();
   const socketChannel = yield call(createSocketChannel, socket);
 
   while (true) {

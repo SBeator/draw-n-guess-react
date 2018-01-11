@@ -19,9 +19,13 @@ server.listen(serverPort, () => {
 
 const io = socketIo.listen(server);
 
+const log = console.log;
+
 let lineHistory = [];
 
 io.on('connection', socket => {
+  log('connected');
+
   lineHistory.forEach(data => {
     socket.emit('drawLine', data);
   });
@@ -34,6 +38,8 @@ io.on('connection', socket => {
     io.emit('clear');
   });
   socket.on('login', name => {
+    log(`${name} is login`);
+    socket.emit('login', name);
     io.emit('chat', 'Bot', `Welcome ${name} to join`);
   });
 

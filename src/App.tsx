@@ -4,7 +4,7 @@ import './App.css';
 const logo = require('./logo.svg');
 
 import { Content } from './components';
-import { Socket } from './containers';
+import { Socket, User } from './containers';
 
 class App extends React.Component {
   render() {
@@ -19,6 +19,7 @@ class App extends React.Component {
         </p>
         <Content />
         <Socket>socket</Socket>
+        <User />
       </div>
     );
   }

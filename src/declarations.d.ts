@@ -1,12 +1,16 @@
 import { Action } from 'redux';
-export interface RootState {
-  user: UserState;
-  socket: SocketState;
+export interface IRootState {
+  user: IUserState;
+  socket: ISocketState;
 }
 
-export type UserState = any;
-export type SocketState = any;
+export interface IUserState {
+  name: string;
+  status: string;
+}
 
-export interface PayloadAction extends Action {
-  payload?: any;
+export type ISocketState = any;
+
+export interface IPayloadAction extends Action {
+  payload: any;
 }

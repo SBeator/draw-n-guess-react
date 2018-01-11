@@ -4,7 +4,7 @@ import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { socket as socketAction } from '../../redux/actions';
-import { RootState } from '../../declarations';
+import { IRootState } from '../../declarations';
 
 class Socket extends Component<Props> {
   componentDidMount() {
@@ -24,11 +24,11 @@ export interface Props {
   };
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: IRootState) => ({
   socket: state.socket,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<RootState>) =>
+const mapDispatchToProps = (dispatch: Dispatch<IRootState>) =>
   bindActionCreators(
     {
       connect: socketAction.connect,
