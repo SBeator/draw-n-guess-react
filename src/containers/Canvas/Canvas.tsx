@@ -1,17 +1,26 @@
 import * as React from 'react';
-import { Component } from 'react';
+import { Component, MouseEvent } from 'react';
 
-import { IDrawData } from '../../declarations';
+import { IDrawData, IPosition } from '../../declarations';
 
 class Canvas extends Component<Props> {
+  canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
+  painting: boolean;
+  paintStart: IPosition;
+  paintEnd: IPosition;
 
   constructor(props: Props) {
     super(props);
+
+    this.setContext = this.setContext.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
   }
 
   componentDidMount() {
-    const { width, height } = this.context.canvas.getBoundingClientRect();
+    const { width, height } = this.getCanvasRect();
 
     this.props.dataLines.forEach(dataLines => {
       const { start, end, color, lineWidth } = dataLines;
@@ -25,15 +34,55 @@ class Canvas extends Component<Props> {
     });
   }
 
+  onMouseDown(event: MouseEvent<HTMLCanvasElement>) {
+    this.painting = true;
+    const { left, top, width, height } = this.getCanvasRect();
+    const { pageX, pageY } = event;
+
+    this.paintStart = {
+      x: (pageX - left) / width,
+      y: (pageY - top) / height,
+    };
+
+    console.log(this.paintStart);
+  }
+
+  onMouseUp() {
+    this.painting = false;
+  }
+
+  onMouseMove(event: MouseEvent<HTMLCanvasElement>) {
+    if (this.painting) {
+      const { left, top, width, height } = this.getCanvasRect();
+      const { pageX, pageY } = event;
+      this.paintEnd = {
+        x: (pageX - left) / width,
+        y: (pageY - top) / height,
+      };
+
+      console.log(this.paintEnd);
+
+      this.paintStart = this.paintEnd;
+    }
+  }
+
+  setContext(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
+    this.context = canvas.getContext('2d') as CanvasRenderingContext2D;
+  }
+
+  getCanvasRect() {
+    return this.canvas.getBoundingClientRect();
+  }
+
   render() {
     return (
       <div>
         <canvas
-          ref={canvas => {
-            this.context = (canvas as HTMLCanvasElement).getContext(
-              '2d'
-            ) as CanvasRenderingContext2D;
-          }}
+          ref={this.setContext}
+          onMouseDown={this.onMouseDown}
+          onMouseMove={this.onMouseMove}
+          onMouseUp={this.onMouseUp}
         />
       </div>
     );
