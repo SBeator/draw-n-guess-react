@@ -40,7 +40,7 @@ function* handleSocketConnect() {
   }
 }
 
-export default function* socketConnect() {
+export default function* socketSaga() {
   // yield console.log('socket');
   yield takeEvery(CONNECTING, handleSocketConnect);
 }

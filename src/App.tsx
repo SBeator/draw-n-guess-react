@@ -10,22 +10,7 @@ class App extends React.Component {
       <div className="App">
         <Socket>socket</Socket>
         <User />
-        <Canvas
-          dataLines={[
-            {
-              start: { x: 0.3, y: 0.3 },
-              end: { x: 0.7, y: 0.7 },
-              color: '#000',
-              lineWidth: 2,
-            },
-            {
-              start: { x: 0.7, y: 0.7 },
-              end: { x: 0.6, y: 0.2 },
-              color: 'green',
-              lineWidth: 2,
-            },
-          ]}
-        />
+        <Canvas />
       </div>
     );
   }

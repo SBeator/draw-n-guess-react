@@ -1,11 +1,19 @@
 import * as React from 'react';
 import { Component, MouseEvent } from 'react';
+import { connect, Dispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { IDrawData, IPosition } from '../../declarations';
+import { paint as paintAction } from '../../redux/actions';
+
+import {
+  IDrawData,
+  IPosition,
+  IRootState,
+  IPaintAction,
+} from '../../declarations';
 
 class Canvas extends Component<Props> {
   canvas: HTMLCanvasElement;
-  context: CanvasRenderingContext2D;
   painting: boolean;
   paintStart: IPosition;
   paintEnd: IPosition;
@@ -13,25 +21,18 @@ class Canvas extends Component<Props> {
   constructor(props: Props) {
     super(props);
 
-    this.setContext = this.setContext.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
+    this.drawLine = this.drawLine.bind(this);
   }
 
-  componentDidMount() {
-    const { width, height } = this.getCanvasRect();
+  componentDidUpdate(prevProps: Props) {
+    const prevDrawDatas = prevProps.paint.drawDatas;
+    const currentDrawDatas = this.props.paint.drawDatas;
+    const moreDrawDatas = currentDrawDatas.slice(prevDrawDatas.length);
 
-    this.props.dataLines.forEach(dataLines => {
-      const { start, end, color, lineWidth } = dataLines;
-
-      this.context.beginPath();
-      this.context.lineWidth = lineWidth;
-      this.context.moveTo(start.x * width, start.y * height);
-      this.context.lineTo(end.x * width, end.y * height);
-      this.context.strokeStyle = color;
-      this.context.stroke();
-    });
+    moreDrawDatas.forEach(this.drawLine);
   }
 
   onMouseDown(event: MouseEvent<HTMLCanvasElement>) {
@@ -43,8 +44,6 @@ class Canvas extends Component<Props> {
       x: (pageX - left) / width,
       y: (pageY - top) / height,
     };
-
-    console.log(this.paintStart);
   }
 
   onMouseUp() {
@@ -52,7 +51,7 @@ class Canvas extends Component<Props> {
   }
 
   onMouseMove(event: MouseEvent<HTMLCanvasElement>) {
-    if (this.painting) {
+    if (this.painting && event.buttons) {
       const { left, top, width, height } = this.getCanvasRect();
       const { pageX, pageY } = event;
       this.paintEnd = {
@@ -60,15 +59,31 @@ class Canvas extends Component<Props> {
         y: (pageY - top) / height,
       };
 
-      console.log(this.paintEnd);
+      const start = Object.assign({}, this.paintStart);
+      const end = Object.assign({}, this.paintEnd);
+
+      this.props.draw({
+        start,
+        end,
+        color: '#000',
+        lineWidth: 2,
+      });
 
       this.paintStart = this.paintEnd;
     }
   }
 
-  setContext(canvas: HTMLCanvasElement) {
-    this.canvas = canvas;
-    this.context = canvas.getContext('2d') as CanvasRenderingContext2D;
+  drawLine(dataLine: IDrawData) {
+    const { start, end, color, lineWidth } = dataLine;
+    const { width, height } = this.getCanvasRect();
+
+    const context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+    context.beginPath();
+    context.lineWidth = lineWidth;
+    context.moveTo(start.x * width, start.y * height);
+    context.lineTo(end.x * width, end.y * height);
+    context.strokeStyle = color;
+    context.stroke();
   }
 
   getCanvasRect() {
@@ -79,7 +94,9 @@ class Canvas extends Component<Props> {
     return (
       <div>
         <canvas
-          ref={this.setContext}
+          ref={canvas => {
+            this.canvas = canvas as HTMLCanvasElement;
+          }}
           onMouseDown={this.onMouseDown}
           onMouseMove={this.onMouseMove}
           onMouseUp={this.onMouseUp}
@@ -90,7 +107,22 @@ class Canvas extends Component<Props> {
 }
 
 export interface Props {
-  dataLines: IDrawData[];
+  paint: {
+    drawDatas: IDrawData[];
+  };
+  draw: (drawData: IDrawData) => IPaintAction;
 }
 
-export default Canvas;
+const mapStateToProps = (state: IRootState) => ({
+  paint: state.paint,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<IRootState>) =>
+  bindActionCreators(
+    {
+      draw: paintAction.draw,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

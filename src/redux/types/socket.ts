@@ -1,4 +1,4 @@
-const prefix = 'CONNECT_';
+const prefix = 'SOCKET_';
 
 const CONNECTING = `${prefix}CONNECTING`;
 const CONNECTED = `${prefix}CONNECTED`;

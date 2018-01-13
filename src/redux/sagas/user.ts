@@ -35,7 +35,7 @@ function* handleUserLogin(action: IPayloadAction) {
   }
 }
 
-export default function* socketConnect() {
+export default function* userSaga() {
   const action: IPayloadAction = yield take(LOGGING);
 
   yield handleUserLogin(action);
