@@ -8,7 +8,7 @@ const connected = () => ({
   type: CONNECTED,
 });
 
-const connectedError = (errorMessage: string) => ({
+const connectedError = (errorMessage: String) => ({
   type: CONNECTED_ERROR,
   payload: {
     errorMessage,

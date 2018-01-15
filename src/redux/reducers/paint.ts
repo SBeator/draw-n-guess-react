@@ -1,8 +1,8 @@
 import { SHOW_LINE } from '../types/paint';
-import { ISocketState, IPaintAction, IPaintStae } from '../../declarations';
+import { ISocketState, IPaintAction, IPaintState } from '../../declarations';
 
 export default function reducer(
-  state: IPaintStae = {
+  state: IPaintState = {
     drawDatas: [],
   },
   action: IPaintAction

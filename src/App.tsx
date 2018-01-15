@@ -1,8 +1,7 @@
 import * as React from 'react';
 import './App.css';
 
-import { Socket, User } from './containers';
-import Canvas from './containers/Canvas/Canvas';
+import { Socket, User, Canvas, Chat } from './containers';
 
 class App extends React.Component {
   render() {
@@ -11,6 +10,7 @@ class App extends React.Component {
         <Socket>socket</Socket>
         <User />
         <Canvas />
+        <Chat />
       </div>
     );
   }

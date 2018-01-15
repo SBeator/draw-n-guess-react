@@ -2,7 +2,8 @@ import { Action } from 'redux';
 export interface IRootState {
   user: IUserState;
   socket: ISocketState;
-  paint: IPaintStae;
+  paint: IPaintState;
+  chat: IChatState;
 }
 
 export interface IUserState {
@@ -12,8 +13,12 @@ export interface IUserState {
 
 export type ISocketState = any;
 
-export interface IPaintStae {
+export interface IPaintState {
   drawDatas: IDrawData[];
+}
+
+export interface IChatState {
+  chats: IChatData[];
 }
 
 export interface IPayloadAction extends Action {
@@ -23,6 +28,12 @@ export interface IPayloadAction extends Action {
 export interface IPaintAction extends IPayloadAction {
   payload: {
     drawData: IDrawData;
+  };
+}
+
+export interface IChatAction extends IPayloadAction {
+  payload: {
+    chat: IChatData;
   };
 }
 
@@ -36,4 +47,9 @@ export interface IDrawData {
 export interface IPosition {
   x: number;
   y: number;
+}
+
+export interface IChatData {
+  user?: string;
+  message: string;
 }

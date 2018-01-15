@@ -24,6 +24,8 @@ const log = console.log;
 let lineHistory = [];
 
 io.on('connection', socket => {
+  socket.username = '';
+
   log('connected');
 
   lineHistory.forEach(data => {
@@ -39,18 +41,21 @@ io.on('connection', socket => {
   });
   socket.on('login', name => {
     log(`${name} is login`);
+    socket.username = name;
     socket.emit('login', name);
     io.emit('chat', 'Bot', `Welcome ${name} to join`);
   });
 
-  socket.on('chat', (username, message) => {
+  socket.on('chat', chatObject => {
+    const message = chatObject.message;
+    console.log(`chat: ${chatObject.message}`);
     if (
       message.startsWith('http') &&
       (message.endsWith('jpg') || message.endsWith('png'))
     ) {
-      io.emit('drawImage', message);
+      io.emit('drawImage', socket.username, message);
     } else {
-      io.emit('chat', username, message);
+      io.emit('chat', socket.username, message);
     }
   });
 });
