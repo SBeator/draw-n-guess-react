@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "express": "^4.15.4",
+    "js-cookie": "^2.2.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@types/jest": "^22.0.1",
+    "@types/js-cookie": "^2.1.0",
     "@types/node": "^8.5.7",
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
