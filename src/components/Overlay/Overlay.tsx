@@ -7,7 +7,7 @@ export interface Props {
 }
 
 export default ({ children }: Props) => (
-  <div className="overlay-root">
-    <div className="overlay-content">{children}</div>
+  <div className="overlay_root">
+    <div className="overlay_content">{children}</div>
   </div>
 );

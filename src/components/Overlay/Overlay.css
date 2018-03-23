@@ -1,4 +1,4 @@
-.overlay-root {
+.overlay_root {
   position: fixed;
   left: 0;
   top: 0;
@@ -8,7 +8,7 @@
   z-index: 99999999999;
 }
 
-.overlay-content {
+.overlay_content {
   position: absolute;
   top: 50%;
   left: 50%;
