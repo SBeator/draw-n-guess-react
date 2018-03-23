@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Component, MouseEvent } from 'react';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import './Canvas.css';
 
 import { paint as paintAction } from '../../redux/actions';
 
@@ -12,6 +13,9 @@ import {
   IPaintAction,
 } from '../../declarations';
 
+const CANVAS_WIDTH = 1200;
+const CANVAS_HEIGHT = 600;
+
 class Canvas extends Component<Props> {
   canvas: HTMLCanvasElement;
   painting: boolean;
@@ -20,14 +24,12 @@ class Canvas extends Component<Props> {
 
   constructor(props: Props) {
     super(props);
-
-    this.onMouseDown = this.onMouseDown.bind(this);
-    this.onMouseMove = this.onMouseMove.bind(this);
-    this.onMouseUp = this.onMouseUp.bind(this);
-    this.drawLine = this.drawLine.bind(this);
   }
 
   componentDidUpdate(prevProps: Props) {
+    this.canvas.width = CANVAS_WIDTH;
+    this.canvas.height = CANVAS_HEIGHT;
+
     const prevDrawDatas = prevProps.paint.drawDatas;
     const currentDrawDatas = this.props.paint.drawDatas;
     const moreDrawDatas = currentDrawDatas.slice(prevDrawDatas.length);
@@ -35,7 +37,7 @@ class Canvas extends Component<Props> {
     moreDrawDatas.forEach(this.drawLine);
   }
 
-  onMouseDown(event: MouseEvent<HTMLCanvasElement>) {
+  onMouseDown = (event: MouseEvent<HTMLCanvasElement>) => {
     this.painting = true;
     const { left, top, width, height } = this.getCanvasRect();
     const { pageX, pageY } = event;
@@ -44,13 +46,13 @@ class Canvas extends Component<Props> {
       x: (pageX - left) / width,
       y: (pageY - top) / height,
     };
-  }
+  };
 
-  onMouseUp() {
+  onMouseUp = () => {
     this.painting = false;
-  }
+  };
 
-  onMouseMove(event: MouseEvent<HTMLCanvasElement>) {
+  onMouseMove = (event: MouseEvent<HTMLCanvasElement>) => {
     if (this.painting && event.buttons) {
       const { left, top, width, height } = this.getCanvasRect();
       const { pageX, pageY } = event;
@@ -71,9 +73,9 @@ class Canvas extends Component<Props> {
 
       this.paintStart = this.paintEnd;
     }
-  }
+  };
 
-  drawLine(dataLine: IDrawData) {
+  drawLine = (dataLine: IDrawData) => {
     const { start, end, color, lineWidth } = dataLine;
     const { width, height } = this.getCanvasRect();
 
@@ -84,7 +86,7 @@ class Canvas extends Component<Props> {
     context.lineTo(end.x * width, end.y * height);
     context.strokeStyle = color;
     context.stroke();
-  }
+  };
 
   getCanvasRect() {
     return this.canvas.getBoundingClientRect();
