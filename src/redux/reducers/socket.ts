@@ -1,5 +1,5 @@
-import { CONNECTING, CONNECTED, CONNECTED_ERROR } from '../types/socket';
-import { ISocketState, IPayloadAction } from '../../declarations';
+import { CONNECTING, CONNECTED, CONNECTED_ERROR } from '../types/socket'
+import { ISocketState, IPayloadAction } from '../../declarations'
 
 export default function reducer(
   state: ISocketState = {},
@@ -7,12 +7,12 @@ export default function reducer(
 ): ISocketState {
   switch (action.type) {
     case CONNECTING:
-      return { status: CONNECTING };
+      return { status: CONNECTING }
     case CONNECTED:
-      return { status: CONNECTED };
+      return { status: CONNECTED }
     case CONNECTED_ERROR:
-      return { status: CONNECTED_ERROR, payload: action.payload };
+      return { status: CONNECTED_ERROR, payload: action.payload }
     default:
-      return state;
+      return state
   }
 }

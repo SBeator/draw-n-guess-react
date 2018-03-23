@@ -1,7 +1,7 @@
-import * as React from 'react';
-import './App.css';
+import * as React from 'react'
+import './App.css'
 
-import { Socket, User, Canvas, Chat } from './containers';
+import { Socket, User, Canvas, Chat } from './containers'
 
 class App extends React.Component {
   render() {
@@ -12,8 +12,8 @@ class App extends React.Component {
         <Canvas />
         <Chat />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

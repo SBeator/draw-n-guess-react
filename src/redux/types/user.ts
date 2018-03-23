@@ -1,6 +1,6 @@
-const prefix = 'USER_';
+const prefix = 'USER_'
 
-const LOGGING = `${prefix}LOGGING`;
-const LOGIN = `${prefix}LOGIN`;
+const LOGGING = `${prefix}LOGGING`
+const LOGIN = `${prefix}LOGIN`
 
-export { LOGGING, LOGIN };
+export { LOGGING, LOGIN }

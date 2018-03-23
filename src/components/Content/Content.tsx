@@ -1,9 +1,9 @@
-import * as React from 'react';
+import * as React from 'react'
 
 class Content extends React.Component {
   render() {
-    return <div>content</div>;
+    return <div>content</div>
   }
 }
 
-export default Content;
+export default Content

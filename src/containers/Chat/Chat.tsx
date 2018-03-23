@@ -1,36 +1,36 @@
-import * as React from 'react';
-import { Component } from 'react';
-import { connect, Dispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import * as React from 'react'
+import { Component } from 'react'
+import { connect, Dispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { chat as chatAction } from '../../redux/actions';
+import { chat as chatAction } from '../../redux/actions'
 import {
   IRootState,
   IChatState,
   IChatAction,
   IChatData,
-} from '../../declarations';
+} from '../../declarations'
 
 class Chat extends Component<Props> {
-  messageInput: HTMLInputElement;
+  messageInput: HTMLInputElement
 
   constructor(props: Props) {
-    super(props);
+    super(props)
 
-    this.onSendChat = this.onSendChat.bind(this);
+    this.onSendChat = this.onSendChat.bind(this)
   }
 
   onSendChat(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+    event.preventDefault()
     this.props.sendChat({
       message: this.messageInput.value,
-    });
+    })
 
-    this.messageInput.value = '';
+    this.messageInput.value = ''
   }
 
   getChatList() {
-    let index = 0;
+    let index = 0
     return (
       <ul>
         {this.props.chat.chats.map(chat => (
@@ -39,7 +39,7 @@ class Chat extends Component<Props> {
           }`}</li>
         ))}
       </ul>
-    );
+    )
   }
 
   render() {
@@ -53,18 +53,18 @@ class Chat extends Component<Props> {
           <button>Send</button>
         </form>
       </div>
-    );
+    )
   }
 }
 
 export interface Props {
-  chat: IChatState;
-  sendChat: (chatData: IChatData) => IChatAction;
+  chat: IChatState
+  sendChat: (chatData: IChatData) => IChatAction
 }
 
 const mapStateToProps = (state: IRootState) => ({
   chat: state.chat,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch<IRootState>) =>
   bindActionCreators(
@@ -72,6 +72,6 @@ const mapDispatchToProps = (dispatch: Dispatch<IRootState>) =>
       sendChat: chatAction.sendChat,
     },
     dispatch
-  );
+  )
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chat);
+export default connect(mapStateToProps, mapDispatchToProps)(Chat)

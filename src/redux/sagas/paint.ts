@@ -1,50 +1,50 @@
-import { eventChannel } from 'redux-saga';
-import { put, take, call, fork, all } from 'redux-saga/effects';
+import { eventChannel } from 'redux-saga'
+import { put, take, call, fork, all } from 'redux-saga/effects'
 
-import { DRAWING } from '../types/paint';
-import { showLine } from '../actions/paint';
+import { DRAWING } from '../types/paint'
+import { showLine } from '../actions/paint'
 
-import socket from '../../utils/socket';
-import { IPaintAction, IDrawData } from '../../declarations';
+import socket from '../../utils/socket'
+import { IPaintAction, IDrawData } from '../../declarations'
 
 /* tslint:disable:no-console */
 
 function createPaintChannel() {
   return eventChannel(emit => {
     const showLineHandler = (drawData: IDrawData) => {
-      emit(showLine(drawData));
-    };
+      emit(showLine(drawData))
+    }
 
-    socket.on('drawLine', showLineHandler);
+    socket.on('drawLine', showLineHandler)
 
     const unsubscribe = () => {
-      socket.off('drawLine', showLineHandler);
-    };
+      socket.off('drawLine', showLineHandler)
+    }
 
-    return unsubscribe;
-  });
+    return unsubscribe
+  })
 }
 
 function* emitDrawLine(action: IPaintAction) {
-  yield socket.emit('drawLine', action.payload.drawData);
+  yield socket.emit('drawLine', action.payload.drawData)
 }
 
 function* handlePaint() {
   while (true) {
-    const action: IPaintAction = yield take(DRAWING);
-    yield fork(emitDrawLine, action);
+    const action: IPaintAction = yield take(DRAWING)
+    yield fork(emitDrawLine, action)
   }
 }
 
 function* handlePaintChannel() {
-  const paintChannel = yield call(createPaintChannel);
+  const paintChannel = yield call(createPaintChannel)
 
   while (true) {
-    const userAction = yield take(paintChannel);
-    yield put(userAction);
+    const userAction = yield take(paintChannel)
+    yield put(userAction)
   }
 }
 
 export default function* paintSaga() {
-  yield all([handlePaint(), handlePaintChannel()]);
+  yield all([handlePaint(), handlePaintChannel()])
 }

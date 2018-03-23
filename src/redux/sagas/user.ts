@@ -1,42 +1,42 @@
-import { eventChannel } from 'redux-saga';
-import { put, take, call } from 'redux-saga/effects';
+import { eventChannel } from 'redux-saga'
+import { put, take, call } from 'redux-saga/effects'
 
-import { LOGGING } from '../types/user';
-import { login } from '../actions/user';
+import { LOGGING } from '../types/user'
+import { login } from '../actions/user'
 
-import socket from '../../utils/socket';
-import { IPayloadAction } from '../../declarations';
+import socket from '../../utils/socket'
+import { IPayloadAction } from '../../declarations'
 
 /* tslint:disable:no-console */
 
 function createUserLoginChannel() {
   return eventChannel(emit => {
     const loginHandler = (name: string) => {
-      emit(login(name));
-    };
+      emit(login(name))
+    }
 
-    socket.on('login', loginHandler);
+    socket.on('login', loginHandler)
 
     const unsubscribe = () => {
-      socket.off('login', loginHandler);
-    };
+      socket.off('login', loginHandler)
+    }
 
-    return unsubscribe;
-  });
+    return unsubscribe
+  })
 }
 
 function* handleUserLogin(action: IPayloadAction) {
-  socket.emit('login', action.payload.name);
-  const userChannel = yield call(createUserLoginChannel);
+  socket.emit('login', action.payload.name)
+  const userChannel = yield call(createUserLoginChannel)
 
   while (true) {
-    const userAction = yield take(userChannel);
-    yield put(userAction);
+    const userAction = yield take(userChannel)
+    yield put(userAction)
   }
 }
 
 export default function* userSaga() {
-  const action: IPayloadAction = yield take(LOGGING);
+  const action: IPayloadAction = yield take(LOGGING)
 
-  yield handleUserLogin(action);
+  yield handleUserLogin(action)
 }
