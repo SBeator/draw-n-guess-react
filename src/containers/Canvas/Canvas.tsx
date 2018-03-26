@@ -82,7 +82,7 @@ class Canvas extends Component<Props> {
 
     const context = this.canvas.getContext('2d') as CanvasRenderingContext2D
     context.beginPath()
-    context.lineWidth = lineWidth * 10
+    context.lineWidth = lineWidth
     context.lineCap = 'round'
     context.moveTo(start.x * CANVAS_WIDTH, start.y * CANVAS_HEIGHT)
     context.lineTo(end.x * CANVAS_WIDTH, end.y * CANVAS_HEIGHT)
