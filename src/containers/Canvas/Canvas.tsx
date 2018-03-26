@@ -26,10 +26,12 @@ class Canvas extends Component<Props> {
     super(props)
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidMount() {
     this.canvas.width = CANVAS_WIDTH
     this.canvas.height = CANVAS_HEIGHT
+  }
 
+  componentDidUpdate(prevProps: Props) {
     const prevDrawDatas = prevProps.paint.drawDatas
     const currentDrawDatas = this.props.paint.drawDatas
     const moreDrawDatas = currentDrawDatas.slice(prevDrawDatas.length)
@@ -77,13 +79,13 @@ class Canvas extends Component<Props> {
 
   drawLine = (dataLine: IDrawData) => {
     const { start, end, color, lineWidth } = dataLine
-    const { width, height } = this.getCanvasRect()
 
     const context = this.canvas.getContext('2d') as CanvasRenderingContext2D
     context.beginPath()
-    context.lineWidth = lineWidth
-    context.moveTo(start.x * width, start.y * height)
-    context.lineTo(end.x * width, end.y * height)
+    context.lineWidth = lineWidth * 10
+    context.lineCap = 'round'
+    context.moveTo(start.x * CANVAS_WIDTH, start.y * CANVAS_HEIGHT)
+    context.lineTo(end.x * CANVAS_WIDTH, end.y * CANVAS_HEIGHT)
     context.strokeStyle = color
     context.stroke()
   }
