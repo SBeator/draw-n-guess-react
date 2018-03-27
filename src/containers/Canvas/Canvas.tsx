@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import './Canvas.css'
 
 import { paint as paintAction } from '../../redux/actions'
+import PaintTools from '../../components/PaintTools/PaintTools'
 
 import {
   IDrawData,
@@ -21,6 +22,11 @@ class Canvas extends Component<Props> {
   painting: boolean
   paintStart: IPosition
   paintEnd: IPosition
+
+  status = {
+    color: '#000',
+    lineWidth: 2,
+  }
 
   constructor(props: Props) {
     super(props)
@@ -69,8 +75,8 @@ class Canvas extends Component<Props> {
       this.props.draw({
         start,
         end,
-        color: '#000',
-        lineWidth: 2,
+        color: this.status.color,
+        lineWidth: this.status.lineWidth,
       })
 
       this.paintStart = this.paintEnd
@@ -97,6 +103,7 @@ class Canvas extends Component<Props> {
   render() {
     return (
       <div>
+        <PaintTools />
         <canvas
           ref={canvas => {
             this.canvas = canvas as HTMLCanvasElement
