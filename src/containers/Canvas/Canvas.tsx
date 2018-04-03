@@ -6,9 +6,10 @@ import './Canvas.css'
 
 import { paint as paintAction } from '../../redux/actions'
 import { PaintTools } from '../../components'
-import { IPaintMethod } from '../../declarations'
 
 import {
+  IPaintMethod,
+  IPaintState,
   IDrawData,
   IPosition,
   IRootState,
@@ -18,18 +19,11 @@ import {
 const CANVAS_WIDTH = 1200
 const CANVAS_HEIGHT = 600
 
-class Canvas extends Component<Props, State> {
+class Canvas extends Component<Props> {
   canvas: HTMLCanvasElement
   painting: boolean
   paintStart: IPosition
   paintEnd: IPosition
-
-  state = {
-    paintMethod: {
-      color: '#000',
-      lineWidth: 2,
-    },
-  }
 
   constructor(props: Props) {
     super(props)
@@ -78,8 +72,8 @@ class Canvas extends Component<Props, State> {
       this.props.draw({
         start,
         end,
-        color: this.state.paintMethod.color,
-        lineWidth: this.state.paintMethod.lineWidth,
+        color: this.props.paint.paintMethod.color,
+        lineWidth: this.props.paint.paintMethod.lineWidth,
       })
 
       this.paintStart = this.paintEnd
@@ -100,9 +94,7 @@ class Canvas extends Component<Props, State> {
   }
 
   onPaintMethodChange = (paintMethod: IPaintMethod) => {
-    this.setState({
-      paintMethod,
-    })
+    this.props.changePaintMethod(paintMethod)
   }
 
   getCanvasRect() {
@@ -114,7 +106,7 @@ class Canvas extends Component<Props, State> {
       <div>
         <PaintTools
           onChange={this.onPaintMethodChange}
-          {...this.state.paintMethod}
+          {...this.props.paint.paintMethod}
         />
         <canvas
           ref={canvas => {
@@ -129,15 +121,10 @@ class Canvas extends Component<Props, State> {
   }
 }
 
-interface State {
-  paintMethod: IPaintMethod
-}
-
 export interface Props {
-  paint: {
-    drawDatas: IDrawData[]
-  }
+  paint: IPaintState
   draw: (drawData: IDrawData) => IPaintAction
+  changePaintMethod: (paintMethod: IPaintMethod) => IPaintAction
 }
 
 const mapStateToProps = (state: IRootState) => ({
@@ -148,6 +135,7 @@ const mapDispatchToProps = (dispatch: Dispatch<IRootState>) =>
   bindActionCreators(
     {
       draw: paintAction.draw,
+      changePaintMethod: paintAction.changePaintMethod,
     },
     dispatch
   )

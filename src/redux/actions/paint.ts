@@ -1,5 +1,5 @@
-import { DRAWING, SHOW_LINE } from '../types/paint'
-import { IDrawData } from '../../declarations'
+import { DRAWING, SHOW_LINE, CHANGE_PAINT_METHOD } from '../types/paint'
+import { IDrawData, IPaintMethod } from '../../declarations'
 
 const draw = (drawData: IDrawData) => ({
   type: DRAWING,
@@ -15,4 +15,11 @@ const showLine = (drawData: IDrawData) => ({
   },
 })
 
-export { draw, showLine }
+const changePaintMethod = (paintMethod: IPaintMethod) => ({
+  type: CHANGE_PAINT_METHOD,
+  payload: {
+    paintMethod,
+  },
+})
+
+export { draw, showLine, changePaintMethod }

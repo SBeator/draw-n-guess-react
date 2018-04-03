@@ -15,6 +15,7 @@ export type ISocketState = any
 
 export interface IPaintState {
   drawDatas: IDrawData[]
+  paintMethod: IPaintMethod
 }
 
 export interface IChatState {
@@ -27,7 +28,8 @@ export interface IPayloadAction extends Action {
 
 export interface IPaintAction extends IPayloadAction {
   payload: {
-    drawData: IDrawData
+    drawData?: IDrawData
+    paintMethod?: IPaintMethod
   }
 }
 
