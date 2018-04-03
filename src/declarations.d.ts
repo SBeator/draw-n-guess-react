@@ -53,3 +53,8 @@ export interface IChatData {
   user?: string
   message: string
 }
+
+export interface IPaintMethod {
+  color: string
+  lineWidth: number
+}

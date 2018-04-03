@@ -1,4 +1,5 @@
-import Content from './Content/Content';
-import Overlay from './Overlay/Overlay';
+import Content from './Content/Content'
+import Overlay from './Overlay/Overlay'
+import PaintTools from './PaintTools/PaintTools'
 
-export { Content, Overlay };
+export { Content, Overlay, PaintTools }

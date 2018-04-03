@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux'
 import './Canvas.css'
 
 import { paint as paintAction } from '../../redux/actions'
-import PaintTools from '../../components/PaintTools/PaintTools'
+import { PaintTools } from '../../components'
+import { IPaintMethod } from '../../declarations'
 
 import {
   IDrawData,
@@ -17,15 +18,17 @@ import {
 const CANVAS_WIDTH = 1200
 const CANVAS_HEIGHT = 600
 
-class Canvas extends Component<Props> {
+class Canvas extends Component<Props, State> {
   canvas: HTMLCanvasElement
   painting: boolean
   paintStart: IPosition
   paintEnd: IPosition
 
-  status = {
-    color: '#000',
-    lineWidth: 2,
+  state = {
+    paintMethod: {
+      color: '#000',
+      lineWidth: 2,
+    },
   }
 
   constructor(props: Props) {
@@ -75,8 +78,8 @@ class Canvas extends Component<Props> {
       this.props.draw({
         start,
         end,
-        color: this.status.color,
-        lineWidth: this.status.lineWidth,
+        color: this.state.paintMethod.color,
+        lineWidth: this.state.paintMethod.lineWidth,
       })
 
       this.paintStart = this.paintEnd
@@ -96,6 +99,12 @@ class Canvas extends Component<Props> {
     context.stroke()
   }
 
+  onPaintMethodChange = (paintMethod: IPaintMethod) => {
+    this.setState({
+      paintMethod,
+    })
+  }
+
   getCanvasRect() {
     return this.canvas.getBoundingClientRect()
   }
@@ -103,7 +112,10 @@ class Canvas extends Component<Props> {
   render() {
     return (
       <div>
-        <PaintTools />
+        <PaintTools
+          onChange={this.onPaintMethodChange}
+          {...this.state.paintMethod}
+        />
         <canvas
           ref={canvas => {
             this.canvas = canvas as HTMLCanvasElement
@@ -115,6 +127,10 @@ class Canvas extends Component<Props> {
       </div>
     )
   }
+}
+
+interface State {
+  paintMethod: IPaintMethod
 }
 
 export interface Props {
