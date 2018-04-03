@@ -15,12 +15,12 @@
     "socket.io-client": "^2.0.4"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
+    "start": "npm-run-all -p start-react server",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "server": "nodemon ./server --watch ./server",
-    "dev": "npm-run-all -p start server"
+    "start-react": "react-scripts-ts start"
   },
   "devDependencies": {
     "@types/jest": "^22.0.1",
