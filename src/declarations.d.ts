@@ -33,6 +33,8 @@ export interface IPaintAction extends IPayloadAction {
   }
 }
 
+export type TPaintActionCreator = (drawData: IDrawData) => IPaintAction
+
 export interface IChatAction extends IPayloadAction {
   payload: {
     chat: IChatData
