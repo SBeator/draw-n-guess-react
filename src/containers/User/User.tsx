@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Component } from 'react'
+import { Component, ReactNode } from 'react'
 import { connect, Dispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { LOGGING } from '../../redux/types/user'
@@ -36,7 +36,12 @@ class User extends Component<Props> {
     const user = this.props.user
     let element
     if (user.name) {
-      element = <p>{this.props.user.name}</p>
+      element = (
+        <div>
+          <p>{this.props.user.name}</p>
+          {this.props.children}
+        </div>
+      )
     } else if (user.status === LOGGING) {
       element = <p>Logging...</p>
     } else {
@@ -65,6 +70,7 @@ class User extends Component<Props> {
 }
 
 export interface Props {
+  children?: ReactNode
   user: IUserState
   logging: (name: string) => IPayloadAction
 }

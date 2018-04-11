@@ -7,10 +7,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Socket>socket</Socket>
-        <User />
-        <Canvas />
-        <Chat />
+        <Socket />
+        <User>
+          <Canvas />
+          <Chat />
+        </User>
       </div>
     )
   }

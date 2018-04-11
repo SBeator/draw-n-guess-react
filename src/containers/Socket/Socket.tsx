@@ -17,7 +17,7 @@ class Socket extends Component<Props> {
 }
 
 export interface Props {
-  children: ReactNode
+  children?: ReactNode
   socket: any
   connect: () => {
     type: string
